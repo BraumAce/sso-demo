@@ -54,11 +54,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 				return null;
 			}
 			// 构建登录用户
-			return new LoginUser().setId(accessToken.getUserId())
-					.setUserType(accessToken.getUserType())
-					.setTenantId(accessToken.getTenantId())
-					.setScopes(accessToken.getScopes())
-					.setAccessToken(accessToken.getAccessToken());
+			LoginUser loginUser = new LoginUser();
+			loginUser.setId(accessToken.getUserId());
+			loginUser.setUserType(accessToken.getUserType());
+			loginUser.setTenantId(accessToken.getTenantId());
+			loginUser.setScopes(accessToken.getScopes());
+			loginUser.setAccessToken(accessToken.getAccessToken());
+			return loginUser;
 		} catch (Exception e) {
 			// 校验 token 不通过时，考虑到一些接口时无需登录的，所以直接返回 null 即可
 			return null;
