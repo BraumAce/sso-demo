@@ -2,12 +2,14 @@ package org.example.framework.config;
 
 import org.example.framework.core.filter.TokenAuthenticationFilter;
 import org.example.framework.core.handler.AccessDeniedHandlerImpl;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
 
@@ -16,7 +18,7 @@ import javax.annotation.Resource;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
-public class SecurityConfiguration{
+public class SecurityConfiguration {
 
 	@Resource
 	private AccessDeniedHandlerImpl accessDeniedHandler;
@@ -27,10 +29,11 @@ public class SecurityConfiguration{
 	@Resource
 	private TokenAuthenticationFilter tokenAuthenticationFilter;
 
+	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		// 设置 URL 安全权限
 		httpSecurity.csrf().disable() // 禁用 CSRF 保护
-				.authorizeHttpRequests()
+				.authorizeRequests()
 				// 1. 静态资源，可匿名访问
 				.antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
 				// 2. 登录相关的接口，可匿名访问
@@ -46,7 +49,9 @@ public class SecurityConfiguration{
 				.authenticationEntryPoint(authenticationEntryPoint);
 
 		// 添加 Token Filter
-//		httpSecurity.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
 		return httpSecurity.build();
 	}
+
 }
