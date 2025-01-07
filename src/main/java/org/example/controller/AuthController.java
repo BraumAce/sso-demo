@@ -45,6 +45,12 @@ public class AuthController {
 		return oauth2Client.refreshToken(refreshToken);
 	}
 
+	/**
+	 * 退出登录
+	 *
+	 * @param request 请求
+	 * @return 成功
+	 */
 	@PostMapping("/logout")
 	public CommonResult<Boolean> logout(HttpServletRequest request) {
 		String token = SecurityUtils.obtainAuthorization(request, "Authorization");

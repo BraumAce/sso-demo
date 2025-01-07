@@ -1,6 +1,7 @@
 package org.example.framework.core.util;
 
 import org.example.framework.core.LoginUser;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -60,6 +61,7 @@ public class SecurityUtils {
 	 *
 	 * @return 当前用户
 	 */
+	@Nullable
 	public static LoginUser getLoginUser() {
 		Authentication authentication = getAuthentication();
 		if (authentication == null) {
@@ -69,10 +71,11 @@ public class SecurityUtils {
 	}
 
 	/**
-	 * 获取当前登录用户ID
+	 * 从上下文中，获取当前登录用户ID
 	 *
 	 * @return 当前登录用户ID
 	 */
+	@Nullable
 	public static Long getLoginUserId() {
 		LoginUser loginUser = getLoginUser();
 		return loginUser != null ? loginUser.getId() : null;
@@ -80,8 +83,9 @@ public class SecurityUtils {
 
 	/**
 	 * 设置当前用户
+	 *
 	 * @param loginUser 当前用户
-	 * @param request 请求
+	 * @param request   请求
 	 */
 	public static void setLoginUser(LoginUser loginUser, HttpServletRequest request) {
 		// 创建 Authentication，并设置到上下文
@@ -90,6 +94,7 @@ public class SecurityUtils {
 	}
 
 	private static Authentication buildAuthentication(LoginUser loginUser, HttpServletRequest request) {
+		// 创建 UsernamePasswordAuthenticationToken 对象
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginUser, null, Collections.emptyList());
 		authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

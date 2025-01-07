@@ -1,6 +1,7 @@
 package org.example.framework.core;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @author liuguang
  */
 @Data
+@Accessors(chain = true)
 public class LoginUser {
 
 	/**

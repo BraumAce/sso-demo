@@ -2,6 +2,7 @@ package org.example.framework.core.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.client.dto.CommonResult;
+import org.example.framework.core.util.SecurityUtils;
 import org.example.framework.core.util.ServletUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -31,8 +32,8 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)
             throws IOException, ServletException {
         // 打印 warn 的原因是，不定期合并 warn，看看有没恶意破坏
-//        log.warn("[commence][访问 URL({}) 时，用户({}) 权限不够]", request.getRequestURI(),
-//                SecurityUtils.getLoginUserId(), e);
+        log.warn("[commence][访问 URL({}) 时，用户({}) 权限不够]", request.getRequestURI(),
+                SecurityUtils.getLoginUserId(), e);
         // 返回 403
         CommonResult<Object> result = new CommonResult<>();
         result.setCode(HttpStatus.FORBIDDEN.value());
