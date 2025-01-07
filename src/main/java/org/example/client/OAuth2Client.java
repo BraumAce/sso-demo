@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -51,7 +52,7 @@ public class OAuth2Client {
 		headers.set("tenant-id", TENANT_ID.toString());
 		addClientHead(headers);
 		// 1.2 构建请求参数
-		LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("code", code);
 		body.add("redirect_uri", redirectUri);
@@ -81,7 +82,7 @@ public class OAuth2Client {
 		headers.set("tenant-id", TENANT_ID.toString());
 		addClientHead(headers);
 		// 1.2 构建请求参数
-		LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 		body.add("token", token);
 
 		// 2. 执行请求
@@ -108,7 +109,7 @@ public class OAuth2Client {
 		headers.set("tenant-id", TENANT_ID.toString());
 		addClientHead(headers);
 		// 1.2 构建请求参数
-		LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "refresh_token");
 		body.add("refresh_token", refreshToken);
 
